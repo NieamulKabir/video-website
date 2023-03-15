@@ -14,32 +14,18 @@ const VideoGrid = () => {
         dispatch(fetchVideos())
     }, [dispatch])
     console.log(videos);
-    // let content;
-
-    // if (isLoading) content = <Loading />
-    // if (!isLoading && isError) content = <div className="col-span-12">{error}</div>
-    // if (!isLoading && !isError && videos?.length === 0) content = <div className="col-span-12">No video Found...</div>
-
-    // if (!isLoading && !isError && videos?.length > 0) {
-    //     content = 
-    //         videos.map(video=>( <VideoGridItem  key={video.id} video={video} />))
-
-    // }
     let content;
 
-    if (isLoading) content = <Loading />;
-    if (!isLoading && isError)
-        content = <div className="col-span-12">{error}</div>;
+    if (isLoading) content = <Loading />
+    if (!isLoading && isError) content = <div className="col-span-12">{error}</div>
+    if (!isLoading && !isError && videos?.length === 0) content = <div className="col-span-12">No video Found...</div>
 
-    if (!isError && !isLoading && videos?.length === 0) {
-        content = <div className="col-span-12">No videos found!</div>;
-    }
+    if (!isLoading && !isError && videos?.length > 0) {
+        content = 
+            videos.map(video=>( <VideoGridItem  key={video.id} video={video} />))
 
-    if (!isError && !isLoading && videos?.length > 0) {
-        content = videos.map((video) => (
-            <VideoGridItem key={video.id} video={video} />
-        ));
     }
+  
     return (
         <section className="pt-12">
             <section className="pt-12">
