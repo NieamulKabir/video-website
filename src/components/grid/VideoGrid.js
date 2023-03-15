@@ -9,10 +9,11 @@ const VideoGrid = () => {
 
     const dispatch = useDispatch();
     const { videos, isLoading, isError, error } = useSelector((state) => state.videos);
+    const { tags, search } = useSelector(state => state.filter)
 
     useEffect(() => {
-        dispatch(fetchVideos())
-    }, [dispatch])
+        dispatch(fetchVideos({tags, search}))
+    }, [dispatch, search, tags])
     console.log(videos);
     let content;
 
@@ -21,11 +22,11 @@ const VideoGrid = () => {
     if (!isLoading && !isError && videos?.length === 0) content = <div className="col-span-12">No video Found...</div>
 
     if (!isLoading && !isError && videos?.length > 0) {
-        content = 
-            videos.map(video=>( <VideoGridItem  key={video.id} video={video} />))
+        content =
+            videos.map(video => (<VideoGridItem key={video.id} video={video} />))
 
     }
-  
+
     return (
         <section className="pt-12">
             <section className="pt-12">
