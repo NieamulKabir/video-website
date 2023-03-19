@@ -1,12 +1,17 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setAuthorTag } from "../../features/filter/filterSlice";
 
 const VideoGridItem = ({ video = {} }) => {
+    const dispatch = useDispatch();
     const { id, title, thumbnail, duration, avatar, author, views, date } = video
+
+    const handleAuthorFilter = (authorName) => {
+        dispatch(setAuthorTag(authorName));
+    }
     return (
-        <div
-            className="col-span-12 sm:col-span-6 md:col-span-3 duration-300 hover:scale-[1.03]"
-        >
+        <div className="col-span-12 sm:col-span-6 md:col-span-3 duration-300 hover:scale-[1.03]">
             <div className="w-full flex flex-col">
                 <div className="relative">
                     <Link to={`videos/${id}`}>
@@ -17,9 +22,7 @@ const VideoGridItem = ({ video = {} }) => {
                         />
                     </Link>
 
-                    <p
-                        className="absolute right-2 bottom-2 bg-gray-900 text-gray-100 text-xs px-1 py"
-                    >
+                    <p className="absolute right-2 bottom-2 bg-gray-900 text-gray-100 text-xs px-1 py">
                         {duration}
                     </p>
                 </div>
@@ -35,18 +38,17 @@ const VideoGridItem = ({ video = {} }) => {
 
                     <div className="flex flex-col">
                         <Link to={`videos/${id}`}>
-                            <p
-                                className="text-slate-900 text-sm font-semibold"
-                            >
+                            <p className="text-slate-900 text-sm font-semibold">
                                 {title}
                             </p>
                         </Link>
-                        <Link
-                            className="text-gray-400 text-xs mt-2 hover:text-gray-600"
-                            to="/"
+                        <span
+                            onClick={() => handleAuthorFilter(author)}
+                            className="text-gray-400 text-xs mt-2 hover:text-gray-600 cursor-pointer"
+
                         >
                             {author}
-                        </Link>
+                        </span>
                         <p className="text-gray-400 text-xs mt-1">
                             {views} views . {date}
                         </p>

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchVideosForPagination } from '../../features/pagination/paginationSlice';
 import { fetchVideos } from '../../features/videos/videosSlice';
 import Loading from '../../utils/Loading';
 import VideoGridItem from './VideoGridItem';
@@ -9,12 +10,15 @@ const VideoGrid = () => {
 
     const dispatch = useDispatch();
     const { videos, isLoading, isError, error } = useSelector((state) => state.videos);
-    const { tags, search } = useSelector(state => state.filter)
+    const {pageNumber} = useSelector((state) => state.pagination);
+    const { tags, search ,authorTag} = useSelector(state => state.filter)
 
     useEffect(() => {
-        dispatch(fetchVideos({tags, search}))
-    }, [dispatch, search, tags])
-    console.log(videos);
+        dispatch(fetchVideos({tags, search,pageNumber,authorTag}))
+        dispatch(fetchVideosForPagination({tags,search,authorTag}))
+    }, [authorTag, dispatch, pageNumber, search, tags])
+
+
     let content;
 
     if (isLoading) content = <Loading />

@@ -1,26 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPageNumber } from '../../features/pagination/paginationSlice';
 
-const Pagination = () => {
+export default function Pagination() {
+    //redux hooks 
+    const dispatch = useDispatch();
+    const { videosLength, pageNumber } = useSelector((state) => state.pagination);
+  
+    const videosPerPage = 8;
+    //local State
+    const [isActivePage, setActivePage] = useState(pageNumber);
+  
+    // to get the number of pages in an array
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(videosLength / videosPerPage); i++) {
+      pageNumbers.push(i);
+    }
+  
+    // to set the active page
+    const handlePageChange = (page) => {
+      setActivePage(page);
+      dispatch(setPageNumber(page));
+    };
+  
     return (
-        <section className="pt-12">
+      <section className="pt-12">
+        <div className="max-w-7xl mx-auto px-5 py-6 lg:px-0 flex gap-2 justify-end">
+          {pageNumbers.map((number) => (
             <div
-                className="max-w-7xl mx-auto px-5 py-6 lg:px-0 flex gap-2 justify-end"
+              key={number}
+              onClick={() => handlePageChange(number)}
+              className={` cursor-pointer
+              ${
+                isActivePage === number
+                  ? "bg-blue-600"
+                  : "bg-blue-200 text-black hover:bg-blue-600 hover:text-white"
+              }
+             text-white px-4 py-1 rounded-full`}
             >
-                <div className="bg-blue-600 text-white px-4 py-1 rounded-full">
-                    1
-                </div>
-                <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
-                    2
-                </div>
-                <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
-                    3
-                </div>
-                <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
-                    4
-                </div>
+              {number}
             </div>
-        </section>
+          ))}
+        </div>
+      </section>
     );
-};
-
-export default Pagination;
+  }

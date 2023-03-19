@@ -5,7 +5,8 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
     tags: [],
-    search: ""
+    search: "",
+    authorTag: "",
 };
 
 
@@ -26,10 +27,15 @@ const filterSlice = createSlice({
         },
         searched: (state, action) => {
             state.search = action.payload
-        }
+        },
+        setAuthorTag: (state, action) => {
+            state.authorTag = action.payload;
+            state.tags = [];
+            state.search = "";
+          },
     }
 
 });
 
 export default filterSlice.reducer;
-export const { tagSelected, tagRemoved, searched } = filterSlice.actions
+export const { tagSelected, tagRemoved, searched ,setAuthorTag} = filterSlice.actions
