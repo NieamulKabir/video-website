@@ -32,10 +32,15 @@ const filterSlice = createSlice({
             state.authorTag = action.payload;
             state.tags = [];
             state.search = "";
-          },
+        },
+        clearAllFilter: (state) => {
+            state.tags = [];
+            state.search = "";
+            state.authorTag = "";
+        },
     }
 
 });
 
 export default filterSlice.reducer;
-export const { tagSelected, tagRemoved, searched ,setAuthorTag} = filterSlice.actions
+export const { tagSelected, tagRemoved, searched, setAuthorTag ,clearAllFilter} = filterSlice.actions

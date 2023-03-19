@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { tagRemoved, tagSelected } from '../../features/filter/filterSlice';
 
 const Tag = ({ tag }) => {
-    const { title } = tag
     const dispatch = useDispatch();
+    const { title } = tag
     const { tags: selectedTags } = useSelector((state) => state.filter);
 
     const isSelected = selectedTags.includes(title) ? true : false;

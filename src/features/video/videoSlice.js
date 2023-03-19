@@ -1,4 +1,4 @@
-import { getVideo } from "./videoAPI";
+import { getVideo, videoLikes, videoUnlikes } from "./videoAPI";
 
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
@@ -14,6 +14,16 @@ export const fetchVideo = createAsyncThunk("video/fetchVideo", async (id) => {
     const video = await getVideo(id);
     return video;
 });
+export const postVideoLike = createAsyncThunk("video/postVideoLike", async ({ id, likes }) => {
+    const likesVideo = await videoLikes(id, likes);
+    return likesVideo
+});
+export const postVideoUnlike = createAsyncThunk("video/postVideoUnlike", async ({ id, unlikes }) => {
+    const unlikeVideo = await videoUnlikes(id, unlikes);
+    return unlikeVideo
+});
+
+
 
 const videoSlice = createSlice({
     name: "video",
@@ -34,6 +44,17 @@ const videoSlice = createSlice({
                 state.isError = true;
                 state.error = action.error?.message;
             });
+
+
+        builder
+            .addCase(postVideoLike.fulfilled, (state, action) => {
+                state.video.likes = action.payload.likes;
+            })
+
+            .addCase(postVideoUnlike.fulfilled, (state, action) => {
+                state.video.unlikes = action.payload.unlikes;
+            })
+
     },
 });
 
